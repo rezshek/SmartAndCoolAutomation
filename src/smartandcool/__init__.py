@@ -1,0 +1,1 @@
+"""SmartAndCool modular monolith."""

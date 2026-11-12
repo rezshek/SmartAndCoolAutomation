@@ -36,3 +36,18 @@
 
 ## API validation checklist
 CJ auth/limits, catalog variants, shipping by destination and warehouse, native Woo publishAsync behavior, webhooks; Woo product/variation APIs, source IDs, status/stock/tax side effects; Rank Math metadata persistence; Amazon developer registration, marketplace permissions, catalog product type, fee estimate, submission statuses. Treat undocumented behavior as an integration hypothesis until verified.
+
+## SAL-62 foundation acceptance (separate from the later listing MVP)
+
+Implemented scope: locked Python 3.12+/FastAPI backend, PostgreSQL/SQLAlchemy/Alembic infrastructure, local Compose database, centralized environment configuration, redacted JSON application logs, small read-only integration adapters/probes, unit and PostgreSQL smoke tests, backend CI and evidence documentation. Next.js remains the future dashboard stack; it is not needed for this foundation.
+
+Acceptance checks:
+
+- Locked setup, backend startup, independent liveness/readiness, actual PostgreSQL connectivity and fresh migrations.
+- Ruff lint/format, mocked provider success/failure/auth/retry tests, disabled-by-default CLI probes, and a disposable PostgreSQL migration round trip/drift check.
+- GitHub Actions runs the same gates with a PostgreSQL service; hosted results are reported through PR checks.
+- Live CJ catalog/freight and Woo/Rank Math evidence when credentials and any required test approval exist; otherwise explicit blockers. Mocked proof must never be called live integration verification.
+- Amazon account/authorization/marketplace/eligibility checklist; no assumed access.
+- No publishing, orders, payments, deployment, customer data, committed credentials or Phase 2 execution.
+
+The 50-product import and 10-product publication criteria above are later MVP gates, not implemented or claimed by SAL-62. [Integration feasibility](integration-feasibility.md) records the handoff and pending proofs.
