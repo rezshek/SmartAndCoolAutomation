@@ -59,3 +59,19 @@ See [integration feasibility](integration-feasibility.md) for primary sources, t
 - Credentials are in the user's local, git-ignored `.env`. Live-check opt-in was switched off after testing. No values or real CJ/Woo product IDs are included in public documentation.
 - **Decision:** Begin SAL-63 locally with CJ ingestion, safe screening, destination-specific cost snapshots and a deterministic pricing engine. Amazon remains Individual, so use configurable provisional fee schedules and manually sourced price benchmarks; label unverified economics and never imply SP-API fee estimates. No product publishing or orders as part of SAL-63.
 - **Open gates for later:** Rank Math write/render test and CJ field ownership before SAL-65; Amazon Professional/SP-API and policy compliance before Amazon automation. Canada requires separate FX, duties and tax review.
+
+## SAL-63 implementation decisions (2026-11-12)
+
+1. Add catalog, variant, source/inventory snapshot, freight/method and import-checkpoint
+   tables to the existing PostgreSQL foundation. Keep image references; download no images.
+2. Use a small sequential CLI with strict loopback-database and ignored-export boundaries.
+   Count auth/retries against request caps; cap estimated CJ points and saved pagination.
+3. Keep all returned freight methods as independent scenarios. Require tracking, service,
+   delivery and origin-stock evidence; require separate verification of zero-price freight.
+   Default quote expiry is a 24-hour local freshness policy, not provider-guaranteed validity.
+4. Use Decimal, explicit merchant shipping revenue and separate market currencies. Never
+   fill unknown FX, credits, duties, taxes or fees with convenient zeroes. Missing critical
+   inputs are UNPRICEABLE; provisional inputs and compliance evidence require review.
+5. Keep business assumptions and product/variant mappings private. Publish only sanitized
+   aggregate live evidence and synthetic calculation examples; do not present synthetic
+   fees/FX as measured profitability. SAL-63 does not authorize marketplace publication.

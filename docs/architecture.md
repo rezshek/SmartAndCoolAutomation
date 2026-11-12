@@ -52,3 +52,14 @@ PostgreSQL 17 is the sole local service. The initial Alembic revision creates ve
 Evidence and unresolved account/store behavior are in [integration feasibility](integration-feasibility.md). Current CJ documentation requires later reconciliation even with webhooks because failed events are not redelivered; CJ's Woo guidance also does not promise automatic inventory sync. These are documented design constraints, not verified store behavior. Keep the planned inventory/cost reconciliation boundary.
 
 For later Woo publication, evaluate CJ native async publication against direct Woo creation on an approved safe product. Reusing native linking could reduce code, but async completion, variant mapping and field ownership remain gates. For Rank Math, prefer existing Woo metadata after a proven round trip; add no bridge without a demonstrated failure. Amazon remains gated on registration/authorization and per-market product eligibility.
+
+## Catalog and economics - SAL-63 (2026-11-12)
+
+The same modular monolith now includes `smartandcool.catalog`: seven PostgreSQL tables,
+normalized product/variant and location inventory records, immutable source snapshots,
+destination-specific freight/method observations and resumable import checkpoints.
+The `sca-catalog` CLI calls small sequential services; no dashboard or commerce API routes
+are added. Decimal economics and deterministic eligibility/service rules export a manual
+review report. Missing credits, FX, fees, evidence and stale observations fail closed.
+Amazon Individual calculations are local provisional schedules; SP-API remains unavailable.
+See [schema, formulas and workflow](catalog-pricing.md) and [verification](sal63-verification.md).
