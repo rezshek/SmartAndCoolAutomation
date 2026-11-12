@@ -157,8 +157,13 @@ document references; unknown product facts, safety and IP always need manual rev
 Rules are conservative keyword screening and can overflag products; absence of a
 keyword is no compliance proof. Private `product_reviews[PID]` records source,
 `safety_reviewed`, `ip_clear`, `food_contact_documents` and `regulatory_documents`.
-Private `service_reviews` require exact method/destination/origin, a source,
-`tracking_verified` and `eligible`. A method name alone never proves tracking.
+Product summary counts screen parents; each scenario also screens the variant title
+and attributes. A parent manual review cannot override a prohibited variant.
+Private `service_reviews` require the exact `quote_id` and `method_id` from a report,
+plus matching `method`/`destination`/`origin`, a source, `tracking_verified` and `eligible`.
+Reviews without those IDs are rejected. Approval applies only to that method on that
+quote and expires with the quote; a fresh quote or changed variant, postal code,
+warehouse or quantity needs a new review. A method name alone never proves tracking.
 Zero-priced freight additionally needs `zero_price_verified` with that review's source;
 the supplier's returned zero is not treated as a free-shipping guarantee. Method errors
 or contradictory monetary totals remain unpriceable.

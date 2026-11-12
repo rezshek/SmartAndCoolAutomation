@@ -24,6 +24,8 @@ from smartandcool.catalog.pricing import FX, InputModel, Money, PricingPolicy, c
 
 
 class ServiceReview(InputModel):
+    quote_id: int = Field(ge=1)
+    method_id: int = Field(ge=1)
     method: str
     destination: Literal["US", "CA"]
     origin: str
@@ -96,7 +98,9 @@ def shipping_reasons(method, quote, config, now):
         (
             r
             for r in config.service_reviews
-            if r.method == method.name
+            if r.quote_id == quote.id
+            and r.method_id == method.id
+            and r.method == method.name
             and r.destination == quote.destination
             and r.origin == quote.origin
         ),
@@ -126,9 +130,10 @@ def build_report(session: Session, config: ReportConfig, *, now: datetime | None
     eligibility_counts = Counter()
     variants = session.scalars(select(Variant).where(Variant.active).order_by(Variant.cj_id)).all()
     for product in session.scalars(select(Product).order_by(Product.cj_id)):
-        eligible, eligibility_reasons = screen(product, config.product_reviews.get(product.cj_id))
-        eligibility_counts[eligible] += 1
+        review = config.product_reviews.get(product.cj_id)
+        eligibility_counts[screen(product, review)[0]] += 1
         for variant in (v for v in variants if v.product_id == product.cj_id):
+            eligible, eligibility_reasons = screen(product, review, variant=variant)
             # A newer empty/unavailable response supersedes earlier priced methods for this route.
             latest = {}
             quotes = session.scalars(

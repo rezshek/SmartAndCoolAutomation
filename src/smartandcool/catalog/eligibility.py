@@ -3,7 +3,7 @@
 import html
 import re
 
-from smartandcool.catalog.models import Product
+from smartandcool.catalog.models import Product, Variant
 from smartandcool.catalog.pricing import InputModel
 
 
@@ -43,7 +43,9 @@ REGULATED = (
 )
 
 
-def screen(product: Product, review: ProductReview | None = None) -> tuple[str, list[str]]:
+def screen(
+    product: Product, review: ProductReview | None = None, *, variant: Variant | None = None
+) -> tuple[str, list[str]]:
     text = html.unescape(
         re.sub(
             r"<[^>]*>",
@@ -55,6 +57,8 @@ def screen(product: Product, review: ProductReview | None = None) -> tuple[str, 
                     product.description,
                     product.category_name,
                     product.attributes,
+                    variant.title if variant else None,
+                    variant.attributes if variant else None,
                 )
             ),
         )

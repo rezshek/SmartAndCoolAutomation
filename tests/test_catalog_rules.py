@@ -1,9 +1,10 @@
 from decimal import Decimal
 
 import pytest
+from pydantic import ValidationError
 
 from smartandcool.catalog.eligibility import ProductReview, screen
-from smartandcool.catalog.models import Product
+from smartandcool.catalog.models import Product, Variant
 from smartandcool.catalog.normalize import (
     delivery_days,
     freight_price,
@@ -13,6 +14,7 @@ from smartandcool.catalog.normalize import (
     search_items,
     variant_values,
 )
+from smartandcool.catalog.report import ServiceReview
 
 
 def product(title="Closet organizer", **changes):
@@ -61,6 +63,25 @@ def test_food_contact_and_regulatory_documents_and_missing_facts():
     item = product()
     item.description = None
     assert screen(item, review)[0] == "NEEDS_REVIEW"
+
+
+@pytest.mark.parametrize(
+    ("attributes", "reason"),
+    [
+        ({"use": "Food container"}, "food_contact_documentation_required"),
+        ({"claim": "Antibacterial"}, "regulatory_documentation_required"),
+    ],
+)
+def test_variant_claims_require_documents_despite_parent_safety_review(attributes, reason):
+    review = ProductReview(source="synthetic", safety_reviewed=True, ip_clear=True)
+    variant = Variant(title="Blue organizer", attributes=attributes)
+    assert screen(product(), review, variant=variant) == ("NEEDS_REVIEW", [reason])
+
+
+def test_service_reviews_require_exact_quote_and_method_ids():
+    with pytest.raises(ValidationError) as error:
+        ServiceReview(method="Tracked", destination="US", origin="CN", source="synthetic evidence")
+    assert {e["loc"] for e in error.value.errors()} == {("quote_id",), ("method_id",)}
 
 
 def test_normalize_variant_units_ids_attributes_and_missing_price():
