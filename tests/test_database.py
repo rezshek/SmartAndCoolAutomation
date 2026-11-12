@@ -29,15 +29,27 @@ def test_postgres_migrations_and_app(monkeypatch):
         command.upgrade(config, "head")
         check_database(engine)
         with session_factory(engine)() as session:
-            assert (
-                session.scalar(text("SELECT version_num FROM alembic_version")) == "0001_foundation"
-            )
+            assert session.scalar(text("SELECT version_num FROM alembic_version")) == "73d0224df33d"
         command.check(config)
         command.downgrade(config, "base")
         with engine.connect() as connection:
             assert connection.scalar(text("SELECT count(*) FROM alembic_version")) == 0
         command.upgrade(config, "head")
         assert "alembic_version" in inspect(engine).get_table_names()
+        assert {
+            "products",
+            "variants",
+            "inventory_snapshots",
+            "freight_quotes",
+            "shipping_methods",
+            "product_snapshots",
+            "catalog_import_runs",
+        } <= set(inspect(engine).get_table_names())
+        assert {row["name"] for row in inspect(engine).get_check_constraints("freight_quotes")} == {
+            "ck_quote_quantity",
+            "ck_quote_destination",
+            "ck_quote_expiry",
+        }
         with TestClient(create_app(settings)) as client:
             assert client.get("/health").status_code == 200
             assert client.get("/ready").json() == {"status": "ready"}

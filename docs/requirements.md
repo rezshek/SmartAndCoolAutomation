@@ -51,3 +51,16 @@ Acceptance checks:
 - No publishing, orders, payments, deployment, customer data, committed credentials or Phase 2 execution.
 
 The 50-product import and 10-product publication criteria above are later MVP gates, not implemented or claimed by SAL-62. [Integration feasibility](integration-feasibility.md) records the handoff and pending proofs.
+
+## SAL-63 catalog/economics acceptance (separate from publishing)
+
+- 50 real candidates and 193 variants imported locally, with media references and idempotent
+  stable IDs. Source facts, warehouse observations and resumable checkpoints are retained.
+- Variant/quantity/origin/warehouse/postal freight is recorded for separate US/CA scenarios;
+  unavailable, zero-price and unverified methods remain explicit review conditions.
+- Decimal Amazon Individual US/CA and Woo policies, explicit credits/FX/landed costs,
+  profit/margin floors and commercial caps are implemented and tested with synthetic inputs.
+- The real catalog does not yet have verified business fee/credit/FX/compliance inputs;
+  real recommendations remain UNPRICEABLE or require review. Numeric fixtures do not
+  establish real profitability. See [verification](sal63-verification.md) and [workflow](catalog-pricing.md).
+- Publishing, AI descriptions, orders, fulfillment and accounting remain later tickets.

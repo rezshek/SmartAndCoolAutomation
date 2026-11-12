@@ -16,6 +16,7 @@ dependencies = [
 
 [project.scripts]
 sca-check = "smartandcool.checks:main"
+sca-catalog = "smartandcool.catalog.cli:main"
 
 [build-system]
 requires = ["hatchling>=1.27,<2"]

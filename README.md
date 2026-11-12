@@ -2,7 +2,10 @@
 
 A lean commerce automation platform for importing CJ Dropshipping products, evaluating profitability, generating channel-specific content, and publishing to WooCommerce and Amazon. Future fulfillment imports Amazon orders into WooCommerce, uses the existing CJ connection, and supports QuickBooks accounting.
 
-**Status:** SAL-62 foundation implemented; live integrations await credentials and verification. No live publishing or fulfillment is enabled.
+**Status:** SAL-63 catalog, freight and deterministic pricing implemented for review.
+50 real CJ candidates (193 variants) imported locally; pricing remains gated on business
+assumptions and eligibility evidence. No live publishing or fulfillment is enabled.
+See [workflow and formulas](docs/catalog-pricing.md) and [measured verification](docs/sal63-verification.md).
 
 ## Markets and product scope
 - United States first; Canada supported as a separate market with CAD pricing, shipping, tax and marketplace validation.
@@ -70,7 +73,9 @@ uv run --locked pytest
 
 Run `createdb` once. POSIX equivalent: `export TEST_DATABASE_URL='postgresql+psycopg://smartandcool:local-dev-only@127.0.0.1:54329/smartandcool_test'`. The test upgrades, checks, downgrades and re-upgrades that disposable database. It never resets the development database. GitHub Actions performs lint/format, fresh migrations, drift validation, the full suite with PostgreSQL and a package build; no integration secrets are required.
 
-Alembic's initial revision establishes history only. SAL-63 adds canonical domain models with new reviewed migrations. Run `uv run alembic revision --autogenerate -m "description"` after importing new models in the migration environment; inspect every generated migration.
+Alembic's initial revision establishes history only. SAL-63 adds seven catalog/quote/checkpoint
+tables in `73d0224df33d`. Upgrade explicitly before importing. The migration round trip
+is destructive only on the disposable test database; preserve the development catalog.
 
 ### Read-only integration checks
 
@@ -107,3 +112,11 @@ docs/                   architecture, requirements, decisions, integration evide
 ```
 
 No dashboard is scaffolded yet. Railway/Vercel remain future hosting targets; deployment, product publication and Phase 2 are outside SAL-62.
+
+### CJ catalog workflow (SAL-63)
+
+`uv run --locked sca-catalog --help` exposes category/keyword discovery, resumable import,
+stock refresh, destination quotes, local inspection and ranked CSV/JSON reports.
+Use [the documented examples](docs/catalog-pricing.md). Live reads retain both opt-ins;
+local outputs must stay under ignored `local-data/`. The checked-in
+[pricing template](docs/pricing.example.json) leaves unverified financial inputs null.

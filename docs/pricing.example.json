@@ -1,0 +1,40 @@
+{
+  "profiles": {
+    "amazon_us": {
+      "channel": "amazon", "country": "US", "currency": "USD",
+      "category": null, "referral_rate": null, "fee_source": null, "fees_verified": false,
+      "individual_fee": {"amount": "0.99", "currency": "USD"},
+      "shipping_revenue": null, "shipping_revenue_source": null,
+      "shipping_revenue_verified": false, "returns_rate": null,
+      "additional_unit_cost": null, "landed_cost_source": null,
+      "landed_costs_verified": false, "advertising_rate": "0",
+      "min_margin": "0.25", "min_profit_usd": "5", "max_price": null
+    },
+    "amazon_ca": {
+      "channel": "amazon", "country": "CA", "currency": "CAD",
+      "category": null, "referral_rate": null, "fee_source": null, "fees_verified": false,
+      "individual_fee": {"amount": "0.99", "currency": "USD"},
+      "shipping_revenue": null, "shipping_revenue_source": null,
+      "shipping_revenue_verified": false, "returns_rate": null,
+      "additional_unit_cost": null, "landed_cost_source": null,
+      "landed_costs_verified": false, "advertising_rate": "0",
+      "min_margin": "0.25", "min_profit_usd": "5", "max_price": null
+    },
+    "woo_us": {
+      "channel": "woo", "country": "US", "currency": "USD",
+      "processing_rate": null, "processing_fixed": null,
+      "fee_source": null, "fees_verified": false,
+      "shipping_revenue": null, "shipping_revenue_source": null,
+      "shipping_revenue_verified": false, "returns_rate": null,
+      "additional_unit_cost": null, "landed_cost_source": null,
+      "landed_costs_verified": false, "advertising_rate": "0",
+      "min_margin": "0.25", "min_profit_usd": "5", "max_price": null
+    }
+  },
+  "fx": null,
+  "product_reviews": {},
+  "service_reviews": [],
+  "category_policies": {},
+  "delivery_limit_days": 20,
+  "facts_max_age_hours": 24
+}

@@ -160,3 +160,24 @@ Automated HTTP calls use MockTransport; an autouse fixture rejects unmocked HTTP
 One upstream Starlette warning currently notes future deprecation of its httpx TestClient integration. The current pinned version passes; reassess that dependency when updating the lock.
 
 Before SAL-63: provide CJ access privately, confirm points/API activation, choose actual origin/warehouse and representative non-customer US/CA postal scenarios, and record live catalog/variant/stock/freight results. Woo linkage/Rank Math round-trip proof and Amazon onboarding remain explicit downstream launch gates. SAL-63 normalization can use these adapters and fixtures while live checks are pending, but must not claim measured profitability or integration success.
+
+## SAL-63 measured update (2026-11-12)
+
+The earlier SAL-62 credential blockers above are historical. During SAL-63, authorized
+CJ reads imported 50 products/193 variants and retained 15 route-specific freight
+responses (including unavailable routes). Total: 76 HTTP attempts and 860 estimated CJ
+points, below the frozen 80/1,000 validation caps. No marketplace mutation occurred.
+
+CN pet-brush freight returned 28 priced methods to US 10001 ($14.07-$82.98 USD), 29 to
+US 90001 ($13.15-$82.98), and 16 to CA K1A 0A9 ($10.99-$39.60). The home/kitchen samples
+are stocked in US warehouses: CN queries returned no methods; observed-US-warehouse
+queries returned zero-priced US methods and no Canada methods. These are retained
+supplier responses, not free-shipping guarantees. No response supplied tracking proof.
+The actual origin checks are essential; a country-level sample cannot be reused for
+other products, warehouses, quantities or destinations.
+
+Full sanitized evidence, counts, limitations and business-input blockers are in
+[SAL-63 verification](sal63-verification.md). Woo's prior read-only success is
+owner-reported in SAL-63; this run did not repeat Woo or call Amazon. The account is
+Individual; Professional-plan SP-API onboarding remains deferred. No Rank Math or CJ
+field-ownership write verification is claimed.

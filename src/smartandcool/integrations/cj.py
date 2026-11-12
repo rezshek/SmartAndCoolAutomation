@@ -85,12 +85,28 @@ class CJClient:
             )
         )
 
-    def search_products(self, keyword: str = "organizer", *, page: int = 1, size: int = 1):
+    def get_categories(self):
+        return self._request("GET", "product/getCategory")
+
+    def search_products(
+        self,
+        keyword: str = "organizer",
+        *,
+        page: int = 1,
+        size: int = 1,
+        category_id: str | None = None,
+    ):
         if not 1 <= page <= 1000 or not 1 <= size <= 100:
             raise ValueError("CJ page/size outside documented range")
-        return self._request(
-            "GET", "product/listV2", params={"keyWord": keyword, "page": page, "size": size}
-        )
+        params = {
+            "keyWord": keyword,
+            "page": page,
+            "size": size,
+            "features": "enable_category,enable_description",
+        }
+        if category_id:
+            params["categoryId"] = category_id
+        return self._request("GET", "product/listV2", params=params)
 
     def get_product(self, product_id: str):
         return self._request("GET", "product/query", params={"pid": product_id})

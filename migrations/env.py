@@ -1,5 +1,6 @@
 from alembic import context
 
+from smartandcool.catalog import models  # noqa: F401 -- register domain metadata
 from smartandcool.config import Settings
 from smartandcool.db import Base, create_db_engine
 
