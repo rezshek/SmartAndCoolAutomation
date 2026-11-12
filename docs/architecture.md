@@ -40,3 +40,15 @@ Woo completed orders sync to QuickBooks through the user's existing or restored 
 Illustration: $38.97 product + $4.49 charged shipping = $43.46 Woo sales. Amazon withheld $3.22 + $0.37 tax, charged $7.51 fees, resulting in $35.95 earnings. Do not treat an Amazon payout as new revenue. Verify actual settlement statements and whether other refunds/fees affect deposits.
 
 Target Amazon Clearing account: debit clearing for gross merchant proceeds; post Amazon fees/adjustments; clear against actual bank deposits. Reconcile fees and payouts monthly (including ads, refunds and FX), not as duplicated sales. Confirm QuickBooks connector supports payment/account mapping and completed-status trigger; otherwise adjust before go-live. Consult bookkeeper for tax/recognition specifics, including Canada.
+
+## Implemented foundation - SAL-62 (2026-11-12)
+
+The modular-monolith decision is unchanged. `src/smartandcool` contains a FastAPI factory with lifespan-managed SQLAlchemy engine, Pydantic Settings, JSON logs, and separate `/health` and `/ready` routes. Synchronous database calls use FastAPI's sync-route thread pool, a bounded connection pool and database timeouts. Migrations run explicitly, never on API startup.
+
+`integrations` contains small sequential httpx adapters; a shared transport handles timeouts, bounded transient retries, safe errors and no redirects. Provider methods cover catalog/quote reads and token exchanges only. The CLI adds two explicit live-read gates. No unauthenticated public integration endpoint is exposed. Current token caching is process-local, suitable for manual feasibility probes; persistent scheduling/secret rotation requires later design.
+
+PostgreSQL 17 is the sole local service. The initial Alembic revision creates version history, with domain tables deliberately deferred until SAL-63 establishes their requirements. No queue, scheduler, dashboard, speculative database entities, publishing or fulfillment path has been added.
+
+Evidence and unresolved account/store behavior are in [integration feasibility](integration-feasibility.md). Current CJ documentation requires later reconciliation even with webhooks because failed events are not redelivered; CJ's Woo guidance also does not promise automatic inventory sync. These are documented design constraints, not verified store behavior. Keep the planned inventory/cost reconciliation boundary.
+
+For later Woo publication, evaluate CJ native async publication against direct Woo creation on an approved safe product. Reusing native linking could reduce code, but async completion, variant mapping and field ownership remain gates. For Rank Math, prefer existing Woo metadata after a proven round trip; add no bridge without a demonstrated failure. Amazon remains gated on registration/authorization and per-market product eligibility.

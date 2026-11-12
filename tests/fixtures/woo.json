@@ -1,0 +1,43 @@
+{
+  "id": 123,
+  "type": "variable",
+  "sku": "SYNTHETIC-01",
+  "categories": [
+    {
+      "id": 7,
+      "name": "Organizers"
+    }
+  ],
+  "attributes": [
+    {
+      "id": 2,
+      "name": "Color",
+      "variation": true,
+      "options": [
+        "Grey"
+      ]
+    }
+  ],
+  "meta_data": [
+    {
+      "id": 1,
+      "key": "rank_math_title",
+      "value": "Synthetic SEO title"
+    },
+    {
+      "id": 2,
+      "key": "rank_math_description",
+      "value": "Synthetic description"
+    },
+    {
+      "id": 3,
+      "key": "rank_math_focus_keyword",
+      "value": "organizer"
+    },
+    {
+      "id": 4,
+      "key": "synthetic_connector_hint",
+      "value": "This is NOT a known CJ metadata key"
+    }
+  ]
+}

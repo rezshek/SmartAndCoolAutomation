@@ -1,0 +1,80 @@
+{
+  "auth": {
+    "code": 200,
+    "result": true,
+    "data": {
+      "accessToken": "synthetic-access-token",
+      "accessTokenExpiryDate": "2099-01-01T00:00:00+00:00",
+      "refreshToken": "synthetic-refresh-token",
+      "refreshTokenExpiryDate": "2099-02-01T00:00:00+00:00"
+    }
+  },
+  "search": {
+    "code": 200,
+    "result": true,
+    "data": {
+      "pageNumber": 1,
+      "totalRecords": 1,
+      "content": [
+        {
+          "productList": [
+            {
+              "id": "synthetic-product",
+              "nameEn": "Organizer",
+              "sellPrice": "3.25",
+              "bigImage": "https://example.invalid/item.png"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "product": {
+    "code": 200,
+    "result": true,
+    "data": {
+      "pid": "synthetic-product",
+      "productNameEn": "Organizer",
+      "productImage": "https://example.invalid/item.png",
+      "variants": [
+        {
+          "vid": "synthetic-variant",
+          "variantSku": "SYNTHETIC-01",
+          "variantSellPrice": "3.25"
+        }
+      ]
+    }
+  },
+  "variants": {
+    "code": 200,
+    "result": true,
+    "data": [
+      {
+        "vid": "synthetic-variant",
+        "variantSku": "SYNTHETIC-01"
+      }
+    ]
+  },
+  "stock": {
+    "code": 200,
+    "result": true,
+    "data": [
+      {
+        "areaId": 1,
+        "countryCode": "CN",
+        "totalInventory": 5
+      }
+    ]
+  },
+  "freight": {
+    "code": 200,
+    "result": true,
+    "data": [
+      {
+        "logisticName": "Synthetic Tracked",
+        "logisticPrice": 4.71,
+        "logisticAging": "5-10"
+      }
+    ]
+  }
+}
