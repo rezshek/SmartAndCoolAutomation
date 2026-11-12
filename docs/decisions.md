@@ -41,3 +41,12 @@ These refine the accepted planning decisions; they do not replace the supplier, 
 10. Keep all live payloads and mappings private. This task makes no repository-visibility change. The historical public-repository warning remains applicable; no permission to publish proprietary evidence is implied.
 
 See [integration feasibility](integration-feasibility.md) for primary sources, tested-versus-documented labels, risks and next steps.
+
+## Amazon selling-plan constraint (2026-11-12)
+- Account owner reports that Seller Central is currently on the **Individual** selling plan after previously downgrading to avoid the $39.99 monthly Professional charge. This is owner-reported; no seller account verification was performed.
+- Amazon's official plan comparison and SP-API registration documents state Individual sellers do **not** have SP-API, bulk uploads/feeds, or custom non-media shipping-rate controls. Do not promise direct API/third-party API access on this plan.
+- **Decision:** do not upgrade solely for SAL-63. Prioritize live CJ + Woo **read-only** validation, product economics, content drafting, and Woo publishing. Build an Amazon manual listing package (copy/images/attributes/pricing) as an interim pathway, but do not scrape Seller Central or attempt to bypass plan restrictions.
+- Model Amazon Individual economics separately: $0.99 per unit sold in addition to category referral fees, Amazon-set non-media shipping credits, and real CJ fulfillment cost. Professional modeling uses $39.99/month and omits the Individual per-unit fee; compare plan-level break-even based on actual volume, contribution and automation benefits.
+- **Amazon SP-API work remains gated on Professional upgrade and developer authorization**. A temporary upgrade/downgrade is not a sustainable route to ongoing automated listings/orders, because plan downgrades remove Professional-only capabilities.
+- The owner reports CJ and Woo keys have been created; live connectivity and correct account permissions remain **UNVERIFIED** until read-only probes complete. Never put credentials in source control or Linear.
+- References: https://sell.amazon.com/developers ; https://sellercentral.amazon.com/gp/help/external/64491 ; https://sell.amazon.com/blog/amazon-professional-vs-individual-selling-plan .
