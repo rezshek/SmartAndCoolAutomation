@@ -2,6 +2,7 @@ from alembic import context
 
 from smartandcool.catalog import models  # noqa: F401 -- register domain metadata
 from smartandcool.config import Settings
+from smartandcool.dashboard import models as dashboard_models  # noqa: F401
 from smartandcool.db import Base, create_db_engine
 
 target_metadata = Base.metadata

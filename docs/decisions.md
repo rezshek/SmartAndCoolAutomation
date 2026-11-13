@@ -75,3 +75,22 @@ See [integration feasibility](integration-feasibility.md) for primary sources, t
 5. Keep business assumptions and product/variant mappings private. Publish only sanitized
    aggregate live evidence and synthetic calculation examples; do not present synthetic
    fees/FX as measured profitability. SAL-63 does not authorize marketplace publication.
+
+## SAL-64 implementation decisions
+
+- Use the requested Next.js/TypeScript stack locally with Radix tabs and the existing
+  FastAPI/PostgreSQL monolith. No hosting registration, Redis, queue or extra service.
+- Keep reviews append-only and drafts versioned; serialize local mutations on the parent
+  product row. Prices persist independently per variant/profile and revalidate current
+  evidence. Content approval never changes commercial readiness.
+- Require exact-source fact verification before generation. Use conservative extractive
+  AI selection/composition and source-phrase validation rather than unsupported creative
+  product claims. Model access, generation quality and live costs require a configured key.
+- Cache actual Woo category IDs through bounded read-only retrieval; require manual
+  mapping approval and current store evidence. Propose missing categories for later.
+- Keep Amazon suggestions and required-attribute lists provisional. Individual-plan
+  limitations prevent account-specific schema approval and automated publishing.
+- Bind both apps to loopback, reject public/cross-site admin requests and optionally
+  require a server-to-server token. Multi-user/public deployment needs separate auth design.
+
+See [workflow and limitations](product-workspace.md) and [verification](sal64-verification.md).

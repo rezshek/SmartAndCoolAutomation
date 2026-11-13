@@ -1,3 +1,4 @@
+from decimal import Decimal
 from typing import Literal
 from urllib.parse import urlsplit
 
@@ -16,6 +17,13 @@ class Settings(BaseSettings):
     http_timeout_seconds: float = Field(default=15, gt=0, le=60)
     http_max_attempts: int = Field(default=3, ge=1, le=3)
     live_checks_enabled: bool = False
+    dashboard_token: SecretStr | None = None
+    openai_api_key: SecretStr | None = None
+    openai_model: str = "gpt-4.1-mini"
+    ai_live_enabled: bool = False
+    ai_input_usd_per_million: Decimal | None = Field(default=None, ge=0, allow_inf_nan=False)
+    ai_output_usd_per_million: Decimal | None = Field(default=None, ge=0, allow_inf_nan=False)
+    ai_price_source: str | None = None
     cj_api_key: SecretStr | None = None
     cj_access_token: SecretStr | None = None
     cj_access_token_expires_at: AwareDatetime | None = None
