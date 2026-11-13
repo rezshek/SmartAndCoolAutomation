@@ -63,3 +63,14 @@ are added. Decimal economics and deterministic eligibility/service rules export 
 review report. Missing credits, FX, fees, evidence and stale observations fail closed.
 Amazon Individual calculations are local provisional schedules; SP-API remains unavailable.
 See [schema, formulas and workflow](catalog-pricing.md) and [verification](sal63-verification.md).
+
+## Product review workspace - SAL-64
+
+`frontend/` is a loopback-bound Next.js/TypeScript application with Radix tabs. Its fixed
+local proxy calls the existing FastAPI monolith; PostgreSQL remains the only service.
+`smartandcool.dashboard` groups canonical products, reuses SAL-63 pricing/screening and
+records channel/variant decisions and immutable listing versions. Woo category retrieval
+is GET-only and bounded; Amazon mappings remain provisional on the Individual plan.
+OpenAI selects verified source evidence through a strict schema, with labeled local mock
+behavior when disabled. Content and commercial approval stay independent. No publisher,
+queue, deployment or fulfillment paths were added. See [setup and API](product-workspace.md).

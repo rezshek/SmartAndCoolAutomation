@@ -14,7 +14,9 @@ def test_lifespan_health_and_readiness(monkeypatch, settings):
         assert client.get("/ready").status_code == 200
         connection = engine.connect.return_value.__enter__.return_value
         assert str(connection.execute.call_args.args[0]) == "SELECT 1"
-        assert set(client.app.openapi()["paths"]) == set()
+        paths = set(client.app.openapi()["paths"])
+        assert "/api/products" in paths
+        assert not any(word in path for path in paths for word in ("publish", "order", "payment"))
     engine.dispose.assert_called_once()
 
 

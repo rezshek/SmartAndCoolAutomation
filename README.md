@@ -2,10 +2,14 @@
 
 A lean commerce automation platform for importing CJ Dropshipping products, evaluating profitability, generating channel-specific content, and publishing to WooCommerce and Amazon. Future fulfillment imports Amazon orders into WooCommerce, uses the existing CJ connection, and supports QuickBooks accounting.
 
-**Status:** SAL-63 catalog, freight and deterministic pricing implemented for review.
+**Status:** SAL-64 local product review dashboard implemented for review.
 50 real CJ candidates (193 variants) imported locally; pricing remains gated on business
 assumptions and eligibility evidence. No live publishing or fulfillment is enabled.
 See [workflow and formulas](docs/catalog-pricing.md) and [measured verification](docs/sal63-verification.md).
+See [dashboard setup, review workflow and API](docs/product-workspace.md) and
+[SAL-64 verification](docs/sal64-verification.md). Start FastAPI on loopback, then run
+`npm ci` and `npm run dev` in `frontend` to open the existing catalog at
+`http://127.0.0.1:3000`.
 
 ## Markets and product scope
 - United States first; Canada supported as a separate market with CAD pricing, shipping, tax and marketplace validation.
@@ -50,7 +54,8 @@ POSIX shells use `cp .env.example .env`; the remaining commands are the same. Th
 
 - `GET http://127.0.0.1:8000/health`: liveness, HTTP 200 without a database query.
 - `GET http://127.0.0.1:8000/ready`: bounded PostgreSQL `SELECT 1`, HTTP 200 or sanitized 503. Apply migrations separately before starting; readiness is not a schema-version check.
-- `/docs`: generated FastAPI reference. There are no commerce/write routes.
+- `/docs`: generated FastAPI reference, including local-only SAL-64 review routes.
+  There are no marketplace publishing, order or payment routes.
 - PostgreSQL is bound to `127.0.0.1:54329`. Example credentials are for local use only. Keep the named volume; `docker compose -p smartandcool-sal62 stop` stops this project's containers without deleting data.
 
 ### Validation
@@ -111,7 +116,8 @@ docs/                   architecture, requirements, decisions, integration evide
 .github/workflows/      backend CI
 ```
 
-No dashboard is scaffolded yet. Railway/Vercel remain future hosting targets; deployment, product publication and Phase 2 are outside SAL-62.
+`frontend/` now contains the SAL-64 Next.js dashboard. Railway/Vercel remain future hosting
+targets; deployment, product publication and Phase 2 are outside this implementation.
 
 ### CJ catalog workflow (SAL-63)
 

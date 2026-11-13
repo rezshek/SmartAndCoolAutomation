@@ -64,3 +64,20 @@ The 50-product import and 10-product publication criteria above are later MVP ga
   real recommendations remain UNPRICEABLE or require review. Numeric fixtures do not
   establish real profitability. See [verification](sal63-verification.md) and [workflow](catalog-pricing.md).
 - Publishing, AI descriptions, orders, fulfillment and accounting remain later tickets.
+
+## SAL-64 review workspace acceptance
+
+- Browse the existing unique products with grouped variants, original images, source
+  categories and explicit missing/eligibility flags. Separate channel/market pricing.
+- Reuse Decimal calculations; preview without persistence and explicitly save independent
+  variant/channel decisions. Unknown financial inputs stay unknown; quote approvals cannot
+  transfer to other routes/methods. No real profitability claims without verified inputs.
+- Read/cache actual Woo categories and approve mappings locally. Amazon remains provisional
+  without account-specific eligibility/schema validation. A missing mapping in one channel
+  does not prevent preparation in another.
+- Verify source facts; generate distinct, structured, extractive Woo/Amazon drafts for a
+  selected product; preserve regenerations/edits and compare previous versions. Label mocks.
+- Enforce content version/fact/category/image-review gates, audit decisions, and keep every
+  commercial requirement separate. Publishing stays disabled because no publisher exists.
+- Full backend/PostgreSQL, frontend lint/type/build/security checks and desktop/mobile
+  browser flows. Record external blockers accurately in [SAL-64 evidence](sal64-verification.md).

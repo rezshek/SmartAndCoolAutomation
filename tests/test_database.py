@@ -29,7 +29,7 @@ def test_postgres_migrations_and_app(monkeypatch):
         command.upgrade(config, "head")
         check_database(engine)
         with session_factory(engine)() as session:
-            assert session.scalar(text("SELECT version_num FROM alembic_version")) == "73d0224df33d"
+            assert session.scalar(text("SELECT version_num FROM alembic_version")) == "c64a10000001"
         command.check(config)
         command.downgrade(config, "base")
         with engine.connect() as connection:
@@ -44,6 +44,9 @@ def test_postgres_migrations_and_app(monkeypatch):
             "shipping_methods",
             "product_snapshots",
             "catalog_import_runs",
+            "review_events",
+            "listing_versions",
+            "woo_category_cache",
         } <= set(inspect(engine).get_table_names())
         assert {row["name"] for row in inspect(engine).get_check_constraints("freight_quotes")} == {
             "ck_quote_quantity",

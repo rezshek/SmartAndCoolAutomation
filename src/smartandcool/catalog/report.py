@@ -123,13 +123,27 @@ def shipping_reasons(method, quote, config, now):
     return reasons
 
 
-def build_report(session: Session, config: ReportConfig, *, now: datetime | None = None) -> dict:
+def build_report(
+    session: Session,
+    config: ReportConfig,
+    *,
+    now: datetime | None = None,
+    product_ids: list[str] | None = None,
+    variant_ids: list[str] | None = None,
+) -> dict:
     now = now or datetime.now(UTC)
     age = timedelta(hours=config.facts_max_age_hours)
     rows = []
     eligibility_counts = Counter()
-    variants = session.scalars(select(Variant).where(Variant.active).order_by(Variant.cj_id)).all()
-    for product in session.scalars(select(Product).order_by(Product.cj_id)):
+    variant_query = select(Variant).where(Variant.active).order_by(Variant.cj_id)
+    product_query = select(Product).order_by(Product.cj_id)
+    if product_ids is not None:
+        variant_query = variant_query.where(Variant.product_id.in_(product_ids))
+        product_query = product_query.where(Product.cj_id.in_(product_ids))
+    if variant_ids is not None:
+        variant_query = variant_query.where(Variant.cj_id.in_(variant_ids))
+    variants = session.scalars(variant_query).all()
+    for product in session.scalars(product_query):
         review = config.product_reviews.get(product.cj_id)
         eligibility_counts[screen(product, review)[0]] += 1
         for variant in (v for v in variants if v.product_id == product.cj_id):

@@ -42,8 +42,10 @@ class WooClient:
             f"products/{product_id}/variations", collection=True, page=page, per_page=per_page
         )
 
-    def get_categories(self):
-        return self._get("products/categories", collection=True, per_page=10)
+    def get_categories(self, *, page: int = 1, per_page: int = 10):
+        if page < 1 or not 1 <= per_page <= 100:
+            raise ValueError("Invalid Woo pagination")
+        return self._get("products/categories", collection=True, page=page, per_page=per_page)
 
     def get_attributes(self):
         return self._get("products/attributes", collection=True, per_page=10)
